@@ -1,0 +1,6 @@
+server/node_modules
+server/.env
+server/fly.toml
+node_modules
+extension/node_modules
+extension/
