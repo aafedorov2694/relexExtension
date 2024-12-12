@@ -1,0 +1,37 @@
+{
+    "manifest_version": 3,
+    "name": "Relex2Calendar",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "action": {
+        "default_popup": "hello.html"
+    },
+    "permissions": [
+        "webRequest",
+        "debugger",
+        "activeTab",
+        "cookies",
+        "tabs",
+        "storage",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "scripts/service.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://restel.work.relexsolutions.com/employees/*"
+            ],
+            "js": [
+                "scripts/content.js"
+            ],
+            "css": ["style/style.css"]
+        }
+    ],
+        "host_permissions": [
+        "https://restel.work.relexsolutions.com/employees/shifts",
+        "https://restel.work.relexsolutions.com/*",
+        "https://fs.restel.fi/adfs/oauth2/authorize/?client_id=a4595ca4-7b2d-4534-b1f8-1f812bdc2130&response_type=code&state=7SV7b55Nt5Lt3MrRZXe2lAuqZ3_BzpkJ1WAvyJC54fQ&scope=openid+profile+email&code_challenge=_MvF0dBxTsgsUQHZk4rbBRlgotQE7rCVHRpk_CvEj4I&code_challenge_method=S256&redirect_uri=https%3A%2F%2Frestel.work.relexsolutions.com%2Flogin-callback"
+    ]
+}
