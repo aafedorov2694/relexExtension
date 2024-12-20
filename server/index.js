@@ -23,18 +23,18 @@ const client = createClient({
         port: 16228
     }
 });
-wss.on('connection', (socket) => {
-    console.log('WebSocket connection established');
+// wss.on('connection', (socket) => {
+//     console.log('WebSocket connection established');
 
-    socket.on('message', (message) => {
-        console.log('Received:', message.toString('utf8'));
-        socket.send(`Server: You said "${message.toString()}"`);
-    });
+//     socket.on('message', (message) => {
+//         console.log('Received:', message.toString('utf8'));
+//         socket.send(`Server: You said "${message.toString()}"`);
+//     });
 
-    socket.on('close', () => {
-        console.log('WebSocket connection closed');
-    });
-});
+//     socket.on('close', () => {
+//         console.log('WebSocket connection closed');
+//     });
+// });
 
 const date = new Date()
 
@@ -90,6 +90,8 @@ app.get('/oauth2callback', async (req, res) => {
     // console.log('token info: ', tokenInfo)
     //
     console.log('req.header: ', req.headers)
+    fetch('https://restel.work.relexsolutions.com/employees/api/user')
+        .then(d => console.log('data in callback: ', d))
 
     await oAuth2Client.setCredentials(tokens);
     let cookie = 'permissions=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmVkb3JvdiBBbnRvbiIsImVtYWlsIjoiQW50b24uRmVkb3JvdkByZXN0ZWwuZmkiLCJ1c2VySWQiOiI1cm94clppdUd5T1NSMjNsdnltT3U4T0FYempCYU9uWk1JWUhPNTBwS2owPSIsImlzQWRtaW4iOnsidmFsdWUiOmZhbHNlfSwiaXNQbGFubmVyIjp7InZhbHVlIjp0cnVlLCJhbGxvd2VkUGxhbm5pbmdVbml0cyI6eyJ0eXBlIjoid2hpdGVsaXN0IiwicGxhbm5pbmdVbml0cyI6WzEzMjBdLCJwbGFubmluZ1VuaXRHcm91cHMiOltdfX0sImlzRW1wbG95ZWUiOnsidmFsdWUiOnRydWUsImNhbkFjdGl2YXRlVEFQYWRzIjpmYWxzZSwiZW1wbG95ZWVJZHMiOls1NDgzXX0sImlzUGF5cm9sbEFkbWluIjp7InZhbHVlIjpmYWxzZX0sInJlc3RlbFVzZXJHcm91cHMiOlsiUmVsZXgtUmVzdGVsLVVuaXQtTWFuYWdlciJdLCJpYXQiOjE3MzE4NDY4OTksImV4cCI6MTczMTkzMzI5OX0.Mo3Q3BhmPIYvqtzF1q3j8t5wGBhQPGcs7KNkWJ6-9h0'
@@ -203,5 +205,5 @@ app.use('/delete', async (req, res) => {
 
 server.listen(process.env.PORT, () => {
     console.log('Server is running on port ', process.env.PORT)
-    console.log(`WebSocket endpoint at ws://localhost:${process.env.PORT}/oauth2callback`);
+    //console.log(`WebSocket endpoint at ws://localhost:${process.env.PORT}/oauth2callback`);
 })

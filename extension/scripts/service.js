@@ -1,44 +1,33 @@
 
 const url = "https://restel.work.relexsolutions.com";
 const cookieName = "permissions";
-const ws = new WebSocket('ws://localhost:3000')
+let cookie;
+//const ws = new WebSocket('ws://localhost:3000')
 
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
     console.log('request in message listener: ', req)
-    ws.addEventListener('open', (event) => {
-        console.log('WebSocket is opened')
-        //ws.send(JSON.stringify(cookie))
-    })
-    getCookie(url, cookieName);
+    // ws.addEventListener('open', (event) => {
+    //     console.log('WebSocket is opened')
+    //     //ws.send(JSON.stringify(cookie))
+    // })
+
+    chrome.cookies.getAll({ url: req.url }, (cookies) => {
+        console.log("Cookies retrieved:", cookies);
+        const permissions = cookies.find(e => e.name = 'permissions')
+        cookie = permissions
+        authorize(cookie)
+    });
+    // if(req.type === 'getCookies') {
+    //     return true
+    // }
+    //getCookie(url, cookieName);
 
     function errorHandler(mes) {
         console.log('erroHAndker: ', mes)
         sendResponse({ message: mes })
     }
-    
 
-    function getCookie (address, cookies) {
-
-        chrome.cookies.get(
-            { url: address, name: cookies },
-            function (cookie) {
-            if(cookie === null) {
-                console.log('not logged in');
-                errorHandler('Not logged in into Relex Account');
-            } else {
-                console.log('cookie in get cookie: ', cookie)
-                authenticate(cookie);
-            }
-        }
-        )
-    };
-
-    async function authenticate(cookie) {
-       
-        authorize(cookie);
-        
-    }
 
     function authorize (cookie) {
         console.log('cookie: ', cookie)
@@ -47,29 +36,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
             type: 'popup'
         }
         )
-        ws.addEventListener('open', (event) => {
-            console.log('WebSocket is opened')
-            ws.send(JSON.stringify(cookie))
-        })
-        // ws.addEventListener('message', () => {
-        //     console.log('I am sending the cookie')
-        //     ws.send(JSON.stringify(cookie));
-        // });
        
-        
-       
-        ws.addEventListener('message', async (event) => {
-            console.log('get token in websocket: ', JSON.parse(event.data))
-            if(JSON.parse(event.data)){
-                await sendCookie(cookie);
-            } else {
-                errorHandler('Not authorized in google')
-            }
-            
-            
-            
-        });
-        //ws.close()
 
     };
 

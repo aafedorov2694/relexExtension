@@ -14,8 +14,12 @@ button.insertBefore(icon, button.firstChild);
 
 document.head.appendChild(link);
 // Add a click event listener
+
 button.addEventListener('click', () => {
-    alert('Button clicked!');
+    chrome.runtime.sendMessage({type: "getCookies", url: window.location.href}, (resp) => {
+        console.log('resp from background: ', resp)
+    })
+    
 })
 
 const observer = new MutationObserver(() => {
