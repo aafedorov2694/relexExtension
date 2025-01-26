@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
             )
         };
 
-        fetch('http://localhost:3000/authy', options)
+        fetch('https://relex-extension-cd6f517d1c74.herokuapp.com/authy', options)
             .then(resp => resp.json())
             .then(data => {
                 console.log('fetched data: ', data)
@@ -72,7 +72,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
                 },
                 body: JSON.stringify(jsonBody)
             };
-            const req = await fetch("http://localhost:3000/authy/shifts", options)
+            const req = await fetch("https://relex-extension-cd6f517d1c74.herokuapp.com/shifts", options)
             errorHandler(req.status)
 
         } catch (err) {
