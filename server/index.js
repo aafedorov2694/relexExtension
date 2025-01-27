@@ -6,7 +6,7 @@ const process = require('process');
 const { oAuth2Client } = require('./utils/auhtorization')
 const parser = require('body-parser')
 const cors = require('cors')
-const { eventCreation, deleteDev } = require('./utils/calendarManipulation')
+const { eventCreation } = require('./utils/calendarManipulation')
 const axios = require('axios')
 const url = require('url')
 
@@ -60,7 +60,7 @@ app.get('/oauth2callback', async (req, res) => {
         res.redirect('/shifts')
     } catch (error) {
         console.error('Error during authentication:', error.message);
-        return false; // Authentication failed
+        return false; 
     }
        
 })
@@ -93,29 +93,18 @@ app.use('/shifts', cors(corsOptions), async (req, res, next) => {
 })
 
 app.use('/shifts', async (req, res) => {
-    //console.log('req.body in second shifts: ', req.body)
     try {
         const updateCalendar = await eventCreation(req.shifts)
         console.log('update calendar: ', updateCalendar)
         res.status(200).json({ message: 'Shifts added succesfully' })
 
     } catch (err) {
-       // console.log('Error upon adding shifts: ', err)
         res.status(500).json({ error: err })
     }
 
 })
 
-app.use('/delete', async (req, res) => {
-    const deletereturn = await deleteDev()
-
-    res.send(deletereturn)
-
-})
-
-
-
 
 server.listen(process.env.PORT, () => {
-    console.log('Server is running on port ', process.env.PORT)
+    console.log('Server is running on port ', process.env.PORT || 3000)
 })

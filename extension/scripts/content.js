@@ -13,7 +13,6 @@ icon.textContent = 'calendar_add_on';
 button.insertBefore(icon, button.firstChild);
 
 document.head.appendChild(link);
-// Add a click event listener
 
 button.addEventListener('click', () => {
     chrome.runtime.sendMessage({type: "getCookies", url: window.location.href}, (resp) => {
